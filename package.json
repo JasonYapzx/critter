@@ -1,0 +1,24 @@
+{
+  "name": "critter",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:ext": "vite build && cp dist/crit.js extension/crit.js",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@zumer/snapdom": "^2.24.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
+  }
+}

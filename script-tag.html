@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>crit.js script-tag check</title>
+    <style>
+      body {
+        font-family: Georgia, serif;
+        margin: 48px auto;
+        max-width: 40rem;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Script-tag host</h1>
+    <p>
+      This page loads <code>dist/crit.js</code> with a plain script tag. Press
+      <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>.</kbd> on macOS, or
+      <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>.</kbd> on Windows/Linux, to pick
+      this heading or the button below. The crit tab at the bottom of the page
+      does the same without a shortcut.
+    </p>
+    <button type="button">A host button</button>
+    <script>
+      if (new URLSearchParams(location.search).has("seed-drawer")) {
+        try {
+          localStorage.setItem("crit-drawer", "open");
+        } catch (err) {
+          /* ignore */
+        }
+      }
+    </script>
+    <script src="./dist/crit.js"></script>
+    <script>
+      window.addEventListener("error", (event) => {
+        document.body.dataset.err = event.message;
+      });
+      setTimeout(() => {
+        const root = document.getElementById("crit-root");
+        document.body.dataset.crit = root ? "mounted" : "missing";
+        document.body.dataset.ignore =
+          root && root.hasAttribute("data-crit-ignore") ? "yes" : "no";
+
+        document.body.dataset.drawer = document.querySelector(".crit-drawer")
+          ? "yes"
+          : "no";
+
+        if (new URLSearchParams(location.search).has("autotoggle")) {
+          window.dispatchEvent(
+            new KeyboardEvent("keydown", {
+              key: ".",
+              code: "Period",
+              metaKey: true,
+              shiftKey: true,
+              bubbles: true,
+            }),
+          );
+          setTimeout(() => {
+            document.body.dataset.highlight = document.querySelector(
+              ".crit-highlight",
+            )
+              ? "yes"
+              : "no";
+
+            const bait = document.createElement("div");
+            bait.id = "drawer-bait";
+            bait.textContent = "bait";
+            bait.style.cssText =
+              "position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:240px;height:48px;background:red;";
+            document.body.appendChild(bait);
+
+            const drawer = document.querySelector(".crit-drawer");
+            const rect = drawer && drawer.getBoundingClientRect();
+            if (rect && rect.width > 0) {
+              const x = rect.left + rect.width / 2;
+              const y = rect.top + rect.height / 2;
+              window.dispatchEvent(
+                new PointerEvent("pointermove", {
+                  clientX: x,
+                  clientY: y,
+                  bubbles: true,
+                }),
+              );
+              const box = document.querySelector(".crit-highlight");
+              const hovering =
+                box && window.getComputedStyle(box).display !== "none";
+              document.body.dataset.drawerHover = hovering
+                ? "highlighted"
+                : "clear";
+
+              window.dispatchEvent(
+                new PointerEvent("pointerdown", {
+                  clientX: x,
+                  clientY: y,
+                  button: 0,
+                  bubbles: true,
+                  cancelable: true,
+                }),
+              );
+              document.body.dataset.pinned = document.querySelector(
+                ".crit-comment",
+              )
+                ? "yes"
+                : "no";
+            } else {
+              document.body.dataset.drawerHover = "missing";
+            }
+          }, 50);
+        }
+      }, 200);
+    </script>
+  </body>
+</html>

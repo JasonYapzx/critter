@@ -1,0 +1,8 @@
+.cursor-delegate/*
+node_modules/
+dist/
+.DS_Store
+*.log
+.env
+.env.*
+*.tsbuildinfo

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400" role="img" aria-label="Swimming pool">
+  <rect width="640" height="400" fill="#0b3a4a"/>
+  <rect x="48" y="56" width="544" height="288" rx="8" fill="#147a8c"/>
+  <rect x="64" y="72" width="512" height="256" fill="#1aa3b8"/>
+  <path d="M64 120h512M64 168h512M64 216h512M64 264h512" stroke="#7fe3ef" stroke-width="3" opacity="0.45"/>
+  <rect x="64" y="72" width="36" height="256" fill="#e8f4f6" opacity="0.85"/>
+  <circle cx="520" cy="300" r="28" fill="#f4d35e"/>
+</svg>
